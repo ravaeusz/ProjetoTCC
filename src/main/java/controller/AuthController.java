@@ -51,6 +51,7 @@ public class AuthController {
         user.setNome(request.nome());
         user.setEmail(request.email());
         user.setSenha(passwordEncoder.encode(request.senha()));
+        user.setROLE(request.ROLE());
         registerService.register(user);
 
         return ResponseEntity.status(HttpStatus.CREATED)
