@@ -1,4 +1,4 @@
 package dto.response;
 
-public record RankingResponse(Integer pontos) {
+public record RankingResponse(String msg, Integer pontos) {
 }

@@ -7,6 +7,7 @@ import dto.request.RegisterRequest;
 import dto.response.LoginResponse;
 import dto.response.RegisterResponse;
 import entity.User;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> userLogin(@RequestBody LoginRequest request){
+    public ResponseEntity<LoginResponse> userLogin(@Valid @RequestBody LoginRequest request){
         UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(request.email(), request.senha());
         Authentication authentication = authenticationManager.authenticate(userAndPass);
 
@@ -46,7 +47,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> userRegister(@RequestBody RegisterRequest request){
+    public ResponseEntity<RegisterResponse> userRegister(@Valid @RequestBody RegisterRequest request){
         User user = new User();
         user.setNome(request.nome());
         user.setEmail(request.email());

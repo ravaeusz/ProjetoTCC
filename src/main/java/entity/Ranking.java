@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Date;
+
 @Entity
 @Getter
 @Setter
@@ -19,7 +21,7 @@ public class Ranking {
     @OneToOne
     @JoinColumn(name = "us_id")
     private User user;
-
     private Integer pontos;
+    private Date createAT;
 
 }
