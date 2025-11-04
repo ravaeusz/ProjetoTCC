@@ -1,6 +1,6 @@
-package repository;
+package com.tcc.TccProject.repository;
 
-import entity.User;
+import com.tcc.TccProject.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    public Optional<UserDetails> FindUserByEmail(String email);
+    Optional<UserDetails> findByEmail(String email);
 }

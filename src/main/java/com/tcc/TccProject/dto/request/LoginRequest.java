@@ -1,4 +1,4 @@
-package dto.request;
+package com.tcc.TccProject.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 

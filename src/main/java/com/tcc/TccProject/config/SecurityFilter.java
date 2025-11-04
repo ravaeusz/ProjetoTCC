@@ -1,4 +1,4 @@
-package config;
+package com.tcc.TccProject.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -25,20 +24,29 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorizedHeader = request.getHeader("Authorizaion");
-        if (Strings.isNotEmpty(authorizedHeader) && authorizedHeader.startsWith("Bearer ")){
+
+        System.out.println("🔒 Request path: " + request.getServletPath());
+
+        String path = request.getServletPath();
+        if (path.startsWith("/auth/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String authorizedHeader = request.getHeader("Authorization");
+        if (Strings.isNotEmpty(authorizedHeader) && authorizedHeader.startsWith("Bearer ")) {
             String token = authorizedHeader.substring("Bearer ".length());
             Optional<JWTUserData> optUser = tokenConfig.validateToken(token);
-            if (optUser.isPresent()){
-                JWTUserData jwtUserData = optUser.get();
-                UsernamePasswordAuthenticationToken authenticationToken;
-                authenticationToken = new UsernamePasswordAuthenticationToken(jwtUserData, null);
+
+            optUser.ifPresent(jwtUserData -> {
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(jwtUserData, null);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                filterChain.doFilter(request,response);
-            }
-            else {
+            });
+        }
+
                 filterChain.doFilter(request, response);
             }
         }
-    }
-}
+
+

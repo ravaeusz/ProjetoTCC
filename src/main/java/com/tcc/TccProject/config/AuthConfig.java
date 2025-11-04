@@ -1,10 +1,10 @@
-package config;
+package com.tcc.TccProject.config;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import repository.UserRepository;
+import com.tcc.TccProject.repository.UserRepository;
 
 @Service
 public class AuthConfig implements UserDetailsService {
@@ -16,7 +16,7 @@ public class AuthConfig implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.FindUserByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
     }
 }

@@ -1,4 +1,4 @@
-package config;
+package com.tcc.TccProject.config;
 
 import lombok.Builder;
 

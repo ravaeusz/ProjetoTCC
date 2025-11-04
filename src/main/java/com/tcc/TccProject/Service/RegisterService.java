@@ -1,13 +1,8 @@
-package Service;
+package com.tcc.TccProject.Service;
 
-import dto.request.RegisterRequest;
-import dto.response.RegisterResponse;
-import entity.User;
-import org.springframework.http.ResponseEntity;
+import com.tcc.TccProject.entity.User;
 import org.springframework.stereotype.Service;
-import repository.UserRepository;
-
-import java.util.Optional;
+import com.tcc.TccProject.repository.UserRepository;
 
 @Service
 public class RegisterService {

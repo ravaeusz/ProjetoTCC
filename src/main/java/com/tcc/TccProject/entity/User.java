@@ -1,4 +1,4 @@
-package entity;
+package com.tcc.TccProject.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,12 +20,21 @@ import java.util.List;
 public class User implements UserDetails {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "us_id")
     private Long id;
 
+    @Column(name = "us_name", nullable = false)
     private String nome;
+
+    @Column(name = "us_email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "us_password", nullable = false)
     private String senha;
-    private String ROLE;
+
+    @Column(name = "us_role", nullable = false)
+    private String role;
 
 
     @Override

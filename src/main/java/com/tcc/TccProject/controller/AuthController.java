@@ -1,12 +1,12 @@
-package controller;
+package com.tcc.TccProject.controller;
 
-import Service.RegisterService;
-import config.TokenConfig;
-import dto.request.LoginRequest;
-import dto.request.RegisterRequest;
-import dto.response.LoginResponse;
-import dto.response.RegisterResponse;
-import entity.User;
+import com.tcc.TccProject.Service.RegisterService;
+import com.tcc.TccProject.config.TokenConfig;
+import com.tcc.TccProject.dto.request.LoginRequest;
+import com.tcc.TccProject.dto.request.RegisterRequest;
+import com.tcc.TccProject.dto.response.LoginResponse;
+import com.tcc.TccProject.dto.response.RegisterResponse;
+import com.tcc.TccProject.entity.User;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +52,7 @@ public class AuthController {
         user.setNome(request.nome());
         user.setEmail(request.email());
         user.setSenha(passwordEncoder.encode(request.senha()));
-        user.setROLE(request.ROLE());
+        user.setRole(request.ROLE());
         registerService.register(user);
 
         return ResponseEntity.status(HttpStatus.CREATED)

@@ -1,4 +1,4 @@
-package entity;
+package com.tcc.TccProject.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,7 @@ import java.sql.Date;
 public class Ranking {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @OneToOne
