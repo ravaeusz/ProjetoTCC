@@ -39,24 +39,18 @@ public class SecurityFilter extends OncePerRequestFilter {
         String authorizedHeader = request.getHeader("Authorization");
         if (Strings.isNotEmpty(authorizedHeader) && authorizedHeader.startsWith("Bearer ")) {
             String token = authorizedHeader.substring("Bearer ".length());
-            System.out.println("🔒 Token recebido: " + token);
 
             Optional<JWTUserData> optUser = tokenConfig.validateToken(token);
-            System.out.println("🔒 Token válido: " + optUser.isPresent());
 
             List<SimpleGrantedAuthority> authorities = List.of(
-                    new SimpleGrantedAuthority("ROLE_USER") // ou ROLE_ADMIN, conforme seu JWT
+                    new SimpleGrantedAuthority("ROLE_USER")
             );
-
 
             optUser.ifPresent(jwtUserData -> {
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(jwtUserData, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                System.out.println("🔒 Autenticação configurada para usuário: " + jwtUserData.email());
             });
-        } else {
-            System.out.println("🔒 Nenhum header Authorization válido encontrado");
         }
 
         filterChain.doFilter(request, response);
