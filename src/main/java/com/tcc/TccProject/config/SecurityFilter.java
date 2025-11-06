@@ -27,9 +27,6 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        System.out.println("🔒 Request path: " + request.getServletPath());
-        System.out.println("🔒 Authorization header: " + request.getHeader("Authorization"));
-
         String path = request.getServletPath();
         if (path.startsWith("/auth/")) {
             filterChain.doFilter(request, response);

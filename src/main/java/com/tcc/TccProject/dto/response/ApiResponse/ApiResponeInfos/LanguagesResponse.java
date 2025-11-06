@@ -1,6 +1,5 @@
-package com.tcc.TccProject.dto.response;
+package com.tcc.TccProject.dto.response.ApiResponse.ApiResponeInfos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record LanguagesResponse(@JsonProperty("label") String label,
