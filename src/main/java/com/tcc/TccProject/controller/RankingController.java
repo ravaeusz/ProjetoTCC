@@ -1,9 +1,11 @@
 package com.tcc.TccProject.controller;
 
 import com.tcc.TccProject.Service.RankingService;
+import com.tcc.TccProject.config.AuthConfig;
 import com.tcc.TccProject.dto.request.RankingRequest;
 import com.tcc.TccProject.dto.response.RankingResponse;
 import com.tcc.TccProject.entity.Ranking;
+import com.tcc.TccProject.entity.User;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +20,23 @@ import java.util.Optional;
 @RequestMapping("/rank")
 public class RankingController {
 
-    RankingService rankingService;
+    private final RankingService rankingService;
+    private final AuthConfig authConfig;
 
-    public RankingController(RankingService rankingService) {
+    public RankingController(RankingService rankingService, AuthConfig authConfig) {
         this.rankingService = rankingService;
+        this.authConfig = authConfig;
     }
 
     @PostMapping("/acerto")
     public ResponseEntity<RankingResponse> correctRanking(@Valid  @RequestBody RankingRequest request){
         Optional<Ranking> search = rankingService.getRankingById(request.user_id());
+        User user = authConfig.getUserById(request.user_id());
+
 
         if (search.isEmpty()) {
             Ranking rank = new Ranking();
-            rank.setUser(request.user());
+            rank.setUser(user);
             rank.setPontos(10);
 
             var save = rankingService.postRanking(rank);

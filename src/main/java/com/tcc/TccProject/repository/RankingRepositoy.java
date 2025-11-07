@@ -15,6 +15,7 @@ public interface RankingRepositoy extends JpaRepository<Ranking, Long> {
     void countPoints(@Param("id") Long id);
 
     List<Ranking> findTop3ByOrderByPontosDesc();
+
 }
 
 

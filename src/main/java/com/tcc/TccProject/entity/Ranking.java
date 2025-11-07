@@ -1,6 +1,7 @@
 package com.tcc.TccProject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,11 +24,12 @@ public class Ranking {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "us_id")
+    @JoinColumn(name = "rk_us_id")
     private User user;
     @Column(name = "rk_pontos")
     private Integer pontos;
     @Column(name = "rk_create_at")
     private LocalDate createAT;
+
 
 }

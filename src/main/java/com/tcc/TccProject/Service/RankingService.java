@@ -35,9 +35,8 @@ public class RankingService {
         rank.setUser(ranking.getUser());
         rank.setPontos(ranking.getPontos());
         rank.setCreateAT(date);
-        rank = rankingRepositoy.save(ranking);
 
-        return rank;
+        return rankingRepositoy.save(rank);
     }
 
     public String countPoint(Long id){
