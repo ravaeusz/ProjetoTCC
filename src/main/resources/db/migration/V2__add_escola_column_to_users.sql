@@ -1,0 +1,3 @@
+
+ALTER TABLE users
+ADD COLUMN us_school VARCHAR(150);

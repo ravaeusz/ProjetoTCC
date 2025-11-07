@@ -36,6 +36,9 @@ public class User implements UserDetails {
     @Column(name = "us_role", nullable = false)
     private String role;
 
+    @Column(name = "us_school", nullable = false)
+    private String escola;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

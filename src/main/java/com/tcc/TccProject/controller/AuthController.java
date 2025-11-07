@@ -52,10 +52,11 @@ public class AuthController {
         user.setNome(request.nome());
         user.setEmail(request.email());
         user.setSenha(passwordEncoder.encode(request.senha()));
+        user.setEscola(request.escola());
         user.setRole(request.ROLE());
         registerService.register(user);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new RegisterResponse(user.getNome(), user.getEmail()));
+                .body(new RegisterResponse(user.getNome(), user.getEmail(), user.getEscola()));
     }
 }
