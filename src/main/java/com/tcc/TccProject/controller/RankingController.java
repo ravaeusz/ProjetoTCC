@@ -3,7 +3,7 @@ package com.tcc.TccProject.controller;
 import com.tcc.TccProject.Service.RankingService;
 import com.tcc.TccProject.config.AuthConfig;
 import com.tcc.TccProject.dto.request.RankingRequest;
-import com.tcc.TccProject.dto.response.RankTopThreeResponse;
+import com.tcc.TccProject.dto.response.RankPodiumResponse;
 import com.tcc.TccProject.dto.response.RankingResponse;
 import com.tcc.TccProject.dto.response.RegisterResponse;
 import com.tcc.TccProject.entity.Ranking;
@@ -32,7 +32,6 @@ public class RankingController {
         Optional<Ranking> search = rankingService.getRankingById(request.user_id());
         User user = authConfig.getUserById(request.user_id());
 
-
         if (search.isEmpty()) {
             Ranking rank = new Ranking();
             rank.setUser(user);
@@ -49,11 +48,11 @@ public class RankingController {
         return ResponseEntity.notFound().build();
 }
     @GetMapping("/ranktop")
-    public ResponseEntity<List<RankTopThreeResponse>> getTopThree(){
+    public ResponseEntity<List<RankPodiumResponse>> getTopThree(){
         List<Ranking> saves = rankingService.getPodiumRanking();
 
-        List<RankTopThreeResponse> response = saves.stream()
-                .map(r -> new RankTopThreeResponse(
+        List<RankPodiumResponse> response = saves.stream()
+                .map(r -> new RankPodiumResponse(
                         r.getId(),
                         List.of(new RegisterResponse(
                                 r.getUser().getNome(),
@@ -66,11 +65,11 @@ public class RankingController {
     }
 
     @GetMapping("/generalrank")
-    public ResponseEntity<List<RankTopThreeResponse>> generalRank(){
+    public ResponseEntity<List<RankPodiumResponse>> generalRank(){
         List<Ranking> saves = rankingService.getGeneralRank();
 
-        List<RankTopThreeResponse> response = saves.stream()
-                .map(r -> new RankTopThreeResponse(
+        List<RankPodiumResponse> response = saves.stream()
+                .map(r -> new RankPodiumResponse(
                         r.getId(),
                         List.of(new RegisterResponse(
                                 r.getUser().getNome(),
@@ -82,7 +81,7 @@ public class RankingController {
         return ResponseEntity.ok(response);
     }
 
-  
+
 }
 
 
