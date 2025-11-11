@@ -11,10 +11,13 @@ import java.util.List;
 
 public interface RankingRepositoy extends JpaRepository<Ranking, Long> {
 
-    @Query("UPDATE Ranking r SET r.pontos = r.pontos + 1 WHERE r.id = :id")
+    @Modifying
+    @Transactional
+    @Query("UPDATE Ranking r SET r.pontos = r.pontos + 10 WHERE r.id = :id")
     void countPoints(@Param("id") Long id);
 
     List<Ranking> findTop3ByOrderByPontosDesc();
+
 
 }
 

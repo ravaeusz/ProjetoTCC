@@ -28,6 +28,12 @@ public class RankingService {
         return rank;
     }
 
+    public List<Ranking> getGeneralRank(){
+        List<Ranking> rank = rankingRepositoy.findAll();
+        return rank;
+    }
+
+
     public Ranking postRanking(Ranking ranking){
         Ranking rank = new Ranking();
         LocalDate date = LocalDate.now();
@@ -43,4 +49,6 @@ public class RankingService {
         rankingRepositoy.countPoints(id);
         return "Contabilizado com sucesso";
     }
+
+
 }

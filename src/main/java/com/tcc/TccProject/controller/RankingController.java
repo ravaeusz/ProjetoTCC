@@ -3,18 +3,17 @@ package com.tcc.TccProject.controller;
 import com.tcc.TccProject.Service.RankingService;
 import com.tcc.TccProject.config.AuthConfig;
 import com.tcc.TccProject.dto.request.RankingRequest;
+import com.tcc.TccProject.dto.response.RankTopThreeResponse;
 import com.tcc.TccProject.dto.response.RankingResponse;
+import com.tcc.TccProject.dto.response.RegisterResponse;
 import com.tcc.TccProject.entity.Ranking;
 import com.tcc.TccProject.entity.User;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/rank")
@@ -48,4 +47,42 @@ public class RankingController {
             return ResponseEntity.ok(new RankingResponse(save, search.get().getPontos()));
         }
         return ResponseEntity.notFound().build();
-}}
+}
+    @GetMapping("/ranktop")
+    public ResponseEntity<List<RankTopThreeResponse>> getTopThree(){
+        List<Ranking> saves = rankingService.getPodiumRanking();
+
+        List<RankTopThreeResponse> response = saves.stream()
+                .map(r -> new RankTopThreeResponse(
+                        r.getId(),
+                        List.of(new RegisterResponse(
+                                r.getUser().getNome(),
+                                r.getUser().getEmail(),
+                                r.getUser().getEscola()
+                        )),
+                        r.getPontos()
+                )).toList();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/generalrank")
+    public ResponseEntity<List<RankTopThreeResponse>> generalRank(){
+        List<Ranking> saves = rankingService.getGeneralRank();
+
+        List<RankTopThreeResponse> response = saves.stream()
+                .map(r -> new RankTopThreeResponse(
+                        r.getId(),
+                        List.of(new RegisterResponse(
+                                r.getUser().getNome(),
+                                r.getUser().getEmail(),
+                                r.getUser().getEscola()
+                        )),
+                        r.getPontos()
+                )).toList();
+        return ResponseEntity.ok(response);
+    }
+
+  
+}
+
+
