@@ -8,6 +8,7 @@ import java.util.List;
 public record ApiResponseQuestions(@JsonProperty("title") String title,
                                    @JsonProperty("index") String index,
                                    @JsonProperty("discipline") String discipline,
+                                   @JsonProperty("context") String context,
                                    @JsonProperty("files") List<String> files,
                                    @JsonProperty("correctAlternative") String correctAlternative,
                                    @JsonProperty("alternativesIntroduction") String alternativesIntroduction,
