@@ -28,25 +28,33 @@ public class RankingController {
     }
 
     @PostMapping("/acerto")
-    public ResponseEntity<RankingResponse> correctRanking(@Valid  @RequestBody RankingRequest request){
-        Optional<Ranking> search = rankingService.getRankingById(request.user_id());
+    public ResponseEntity<RankingResponse> correctRanking(@Valid @RequestBody RankingRequest request) {
+
         User user = authConfig.getUserById(request.user_id());
+        Optional<Ranking> search = rankingService.getRankingByUserId(request.user_id());
 
         if (search.isEmpty()) {
             Ranking rank = new Ranking();
             rank.setUser(user);
             rank.setPontos(10);
 
-            var save = rankingService.postRanking(rank);
+            rankingService.postRanking(rank);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new RankingResponse("Registrado no ranking!", rank.getPontos()));
         }
-        if (search.isPresent()){
-            String save = rankingService.countPoint(request.user_id());
-            return ResponseEntity.ok(new RankingResponse(save, search.get().getPontos()));
-        }
-        return ResponseEntity.notFound().build();
-}
+
+        // Já existe, então soma pontos
+        rankingService.countPoint(user);
+
+        Ranking updated = rankingService.getRankingByUserId(request.user_id()).get();
+
+        return ResponseEntity.ok(
+                new RankingResponse("Pontos atualizados", updated.getPontos())
+        );
+    }
+
+
+
     @GetMapping("/ranktop")
     public ResponseEntity<List<RankPodiumResponse>> getTopThree(){
         List<Ranking> saves = rankingService.getPodiumRanking();

@@ -43,7 +43,7 @@ public class AuthController {
 
         User user = (User) authentication.getPrincipal();
         String token = tokenConfig.generateToken(user);
-        return ResponseEntity.ok(new LoginResponse(token, user.getEmail(), user.getEscola()));
+        return ResponseEntity.ok(new LoginResponse(token, user.getId(), user.getEmail(), user.getEscola()));
     }
 
     @PostMapping("/register")
