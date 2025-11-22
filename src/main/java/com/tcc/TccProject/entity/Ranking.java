@@ -31,5 +31,4 @@ public class Ranking {
     @Column(name = "rk_create_at")
     private LocalDate createAT;
 
-
 }

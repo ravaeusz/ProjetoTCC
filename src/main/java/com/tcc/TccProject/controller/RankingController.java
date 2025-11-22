@@ -28,29 +28,37 @@ public class RankingController {
     }
 
     @PostMapping("/acerto")
-    public ResponseEntity<RankingResponse> correctRanking(@Valid @RequestBody RankingRequest request) {
+    public ResponseEntity<RankingResponse> correctRanking(@Valid  @RequestBody RankingRequest request){
+        Optional<Ranking> search = rankingService.findRankByUserId(request.user_id());
 
-        User user = authConfig.getUserById(request.user_id());
-        Optional<Ranking> search = rankingService.getRankingByUserId(request.user_id());
+
+        if (search.isPresent()){
+            System.out.println("Existe ranking para esse user");
+            User user = authConfig.getUserById(request.user_id());
+            String save = rankingService.countPoint(user);
+            return ResponseEntity.ok(new RankingResponse(save, search.get().getPontos()));
+        }
 
         if (search.isEmpty()) {
+            System.out.println("Não existe ranking para esse user");
+
+            User user = authConfig.getUserById(request.user_id());
+
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new RankingResponse("Usuário não encontrado", 0));
+            }
+
             Ranking rank = new Ranking();
             rank.setUser(user);
             rank.setPontos(10);
 
-            rankingService.postRanking(rank);
+            var save = rankingService.postRanking(rank);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new RankingResponse("Registrado no ranking!", rank.getPontos()));
         }
 
-        // Já existe, então soma pontos
-        rankingService.countPoint(user);
-
-        Ranking updated = rankingService.getRankingByUserId(request.user_id()).get();
-
-        return ResponseEntity.ok(
-                new RankingResponse("Pontos atualizados", updated.getPontos())
-        );
+        return ResponseEntity.notFound().build();
     }
 
 
