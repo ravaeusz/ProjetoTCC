@@ -33,14 +33,14 @@ public class RankingController {
 
 
         if (search.isPresent()){
-            System.out.println("Existe ranking para esse user");
+            
             User user = authConfig.getUserById(request.user_id());
             String save = rankingService.countPoint(user);
             return ResponseEntity.ok(new RankingResponse(save, search.get().getPontos()));
         }
 
         if (search.isEmpty()) {
-            System.out.println("Não existe ranking para esse user");
+
 
             User user = authConfig.getUserById(request.user_id());
 
