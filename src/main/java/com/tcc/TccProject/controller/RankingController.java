@@ -33,7 +33,7 @@ public class RankingController {
 
 
         if (search.isPresent()){
-            
+
             User user = authConfig.getUserById(request.user_id());
             String save = rankingService.countPoint(user);
             return ResponseEntity.ok(new RankingResponse(save, search.get().getPontos()));
